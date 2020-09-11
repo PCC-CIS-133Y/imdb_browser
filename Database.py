@@ -24,8 +24,17 @@ class Database:
 
     # Fetch the most popular shows from the IMDB given a particular genre and type of show,
     # where at least a certain number of IMDB users have rated that show.
-    # This works buy building a slightly different query string depending on which options have
-    # been selected by the user.
+    # This works by building a slightly different query string depending on which options have
+    # been selected by the user. Here's the query for both genre and type selected:
+    #
+    #     SELECT TOP 50 TB1.tconst, primaryTitle, RTRIM(titleType) AS titleType, startYear, averageRating, numVotes
+    #     FROM title_basics AS TB1
+    #     JOIN title_ratings AS TR ON TB1.tconst = TR.tconst
+    #     JOIN title_genre AS TG ON TB1.tconst = TG.tconst
+    #     WHERE TR.numVotes >= ?
+    #     AND TG.genre = ?
+    #     AND TB1.titleType = ?
+    #     ORDER BY TR.averageRating DESC;
     #
     # Results from the database are wrapped in a list of Show objects.
     @classmethod
