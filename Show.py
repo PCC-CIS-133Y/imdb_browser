@@ -37,3 +37,38 @@ class Show:
         from Database import Database
 
         return Database.fetch_popular_shows(genre, type, min_votes)
+
+class ShowGenre:
+    ALL_GENRES = "-- All Genres --"
+
+    # Construct a ShowGenre object
+    def __init__(self, genre):
+        self._genre = genre
+
+    # Only need one accessor
+    def get_genre(self):
+        return self._genre
+
+    # Fetch the list of genres. We just hand this request over to the data layer.
+    @staticmethod
+    def fetch_genres():
+        from Database import Database
+        return Database.fetch_genres()
+
+class ShowType:
+    ALL_TYPES = "-- All Types --"
+
+    # Construct a ShowType object
+    def __init__(self, type):
+        self._type = type
+
+    # Only need one accessor
+    def get_type(self):
+        return self._type
+
+    # Fetch the list of types. We just hand this request over to the data layer.
+    @staticmethod
+    def fetch_types():
+        from Database import Database
+        return Database.fetch_types()
+

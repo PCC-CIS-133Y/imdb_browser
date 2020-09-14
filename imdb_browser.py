@@ -2,7 +2,7 @@ import os
 import pygubu
 import tkinter as tk
 from Database import Database
-from Show import Show
+from Show import *
 import webbrowser
 
 class ShowBrowserApp:
@@ -54,12 +54,12 @@ class ShowBrowserApp:
 
     # Setup the genres combobox so that the user can select which genre to browse.
     def setup_genres(self):
-        self._genre_combo['values'] = [Database.ALL_GENRES] + Database.fetch_genres()
+        self._genre_combo['values'] = [ShowGenre.ALL_GENRES] + [x.get_genre() for x in Database.fetch_genres()]
         self._genre_combo.current(0)
 
     # Setup the types combobox so that the user can select which types of shows to browse.
     def setup_types(self):
-        self._type_combo['values'] = [Database.ALL_TYPES] + Database.fetch_types()
+        self._type_combo['values'] = [ShowType.ALL_TYPES] + [x.get_type() for x in Database.fetch_types()]
         self._type_combo.current(0)
 
     # The user selected a new genre.

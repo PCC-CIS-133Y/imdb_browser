@@ -7,8 +7,6 @@ import pyodbc
 # so that they can share a single reusable connection to the database.
 class Database:
     _connection = None
-    ALL_GENRES = "-- All Genres --"
-    ALL_TYPES = "-- All Types --"
 
     # Connect to the database using the CIS 275 student account.
     @classmethod
@@ -39,7 +37,7 @@ class Database:
     # Results from the database are wrapped in a list of Show objects.
     @classmethod
     def fetch_popular_shows(cls, genre, type, min_votes):
-        from Show import Show
+        from Show import Show, ShowGenre, ShowType
 
         # print("Fetching:", genre, type, min_votes)
         sql = '''
@@ -47,18 +45,18 @@ class Database:
         FROM title_basics AS TB1
         JOIN title_ratings AS TR ON TB1.tconst = TR.tconst
         '''
-        if genre != cls.ALL_GENRES:
+        if genre != ShowGenre.ALL_GENRES:
             sql += '''
             JOIN title_genre AS TG ON TB1.tconst = TG.tconst
             '''
         sql += '''
         WHERE TR.numVotes >= ?
         '''
-        if genre != cls.ALL_GENRES:
+        if genre != ShowGenre.ALL_GENRES:
             sql += '''
             AND TG.genre = ?
             '''
-        if type != cls.ALL_TYPES:
+        if type != ShowType.ALL_TYPES:
             sql += '''
             AND TB1.titleType = ?
             '''
@@ -67,11 +65,11 @@ class Database:
         '''
         cls.connect()
         cursor = cls._connection.cursor()
-        if genre != cls.ALL_GENRES and type != cls.ALL_TYPES:
+        if genre != ShowGenre.ALL_GENRES and type != ShowType.ALL_TYPES:
             cursor.execute(sql, min_votes, genre, type)
-        elif type != cls.ALL_TYPES:
+        elif type != ShowType.ALL_TYPES:
             cursor.execute(sql, min_votes, type)
-        elif genre != cls.ALL_GENRES:
+        elif genre != ShowGenre.ALL_GENRES:
             cursor.execute(sql, min_votes, genre)
         else:
             cursor.execute(sql, min_votes)
@@ -85,6 +83,7 @@ class Database:
     # Fetch the distinct genres from the IMDB database.
     @classmethod
     def fetch_genres(cls):
+        from Show import ShowGenre
         sql = '''
         SELECT DISTINCT genre
         FROM title_genre;
@@ -95,13 +94,14 @@ class Database:
         genres = []
         genre = cursor.fetchone()
         while genre:
-            genres.append(genre[0])
+            genres.append(ShowGenre(genre[0]))
             genre = cursor.fetchone()
         return genres
 
     # Fetch the distinct types of shows from the IMDB database.
     @classmethod
     def fetch_types(cls):
+        from Show import ShowType
         sql = '''
         SELECT DISTINCT titleType
         FROM title_basics;
@@ -112,6 +112,6 @@ class Database:
         types = []
         type = cursor.fetchone()
         while type:
-            types.append(type[0])
+            types.append(ShowType(type[0]))
             type = cursor.fetchone()
         return types
