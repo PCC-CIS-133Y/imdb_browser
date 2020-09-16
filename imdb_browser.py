@@ -1,5 +1,8 @@
 import os
 import pygubu
+# Next two imports are required for pyinstaller to work properly.
+from pygubu.builder import ttkstdwidgets
+from pygubu.builder.widgets import scrollbarhelper
 import tkinter as tk
 from Database import Database
 from Show import *

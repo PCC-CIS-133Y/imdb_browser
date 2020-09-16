@@ -52,8 +52,16 @@ class ShowGenre:
     # Fetch the list of genres. We just hand this request over to the data layer.
     @staticmethod
     def fetch_genres():
-        from Database import Database
-        return Database.fetch_genres()
+        # Uncomment the following two lines of code and then removed the CachedData lines below
+        # to use the database.
+        #
+        # from Database import Database
+        # return Database.fetch_genres()
+
+        # Used cached versions of the data to save time on startup.
+        # Remove these two lines if using the database above.
+        from CachedData import CachedData
+        return CachedData.fetch_genres()
 
 class ShowType:
     ALL_TYPES = "-- All Types --"
@@ -69,6 +77,14 @@ class ShowType:
     # Fetch the list of types. We just hand this request over to the data layer.
     @staticmethod
     def fetch_types():
-        from Database import Database
-        return Database.fetch_types()
+        # Uncomment the following two lines of code and then removed the CachedData lines below
+        # to use the database.
+        #
+        # from Database import Database
+        # return Database.fetch_types()
+
+        # Used cached versions of the data to save time on startup.
+        # Remove these two lines if using the database above.
+        from CachedData import CachedData
+        return CachedData.fetch_types()
 
