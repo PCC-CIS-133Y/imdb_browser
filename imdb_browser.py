@@ -2,7 +2,10 @@ import os
 import pygubu
 
 # Next two imports are required for pyinstaller to work properly.
+
+# noinspection PyUnresolvedReferences
 from pygubu.builder import ttkstdwidgets
+# noinspection PyUnresolvedReferences
 from pygubu.builder.widgets import scrollbarhelper
 
 import tkinter as tk
@@ -158,6 +161,7 @@ class ShowBrowserApp:
     # The code will work fine without this, but the UI will look a little bland.
     @staticmethod
     def create_treeview_style():
+        # noinspection PyUnresolvedReferences
         style = tk.ttk.Style()
 
         # fix for bug in alternating colors in Treeview in later versions of tkinter
@@ -197,4 +201,3 @@ if __name__ == '__main__':
     root.tk.call('info', 'patchlevel')
     app = ShowBrowserApp(root)
     app.run()
-

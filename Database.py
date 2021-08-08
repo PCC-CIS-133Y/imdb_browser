@@ -111,8 +111,8 @@ class Database:
         cursor = cls.__connection.cursor()
         cursor.execute(sql)
         types = []
-        type = cursor.fetchone()
-        while type:
-            types.append(ShowType(type[0]))
-            type = cursor.fetchone()
+        show_type = cursor.fetchone()
+        while show_type:
+            types.append(ShowType(show_type[0]))
+            show_type = cursor.fetchone()
         return types
