@@ -1,4 +1,6 @@
 import pyodbc
+from Show import Show, ShowGenre, ShowType
+
 
 # The data layer of an N-tier architecture.
 # A Database class that includes methods for fetching a list
@@ -6,17 +8,17 @@ import pyodbc
 # and types of shows from the IMDB database. These methods are class methods
 # so that they can share a single reusable connection to the database.
 class Database:
-    _connection = None
+    __connection = None
 
     # Connect to the database using the CIS 275 student account.
     @classmethod
     def connect(cls):
-        if cls._connection == None:
+        if cls.__connection is None:
             server = 'tcp:cisdbss.pcc.edu'
             database = 'IMDB'
             username = '275student'
             password = '275student'
-            cls._connection = pyodbc.connect(
+            cls.__connection = pyodbc.connect(
                 'DRIVER={ODBC Driver 17 for SQL Server};SERVER=' + server + ';DATABASE=' + database
                 + ';UID=' + username + ';PWD=' + password)
 
@@ -36,9 +38,7 @@ class Database:
     #
     # Results from the database are wrapped in a list of Show objects.
     @classmethod
-    def fetch_popular_shows(cls, genre, type, min_votes):
-        from Show import Show, ShowGenre, ShowType
-
+    def fetch_popular_shows(cls, genre, show_type, min_votes):
         # print("Fetching:", genre, type, min_votes)
         sql = '''
         SELECT TOP 50 TB1.tconst, primaryTitle, RTRIM(titleType) AS titleType, startYear, averageRating, numVotes
@@ -56,7 +56,7 @@ class Database:
             sql += '''
             AND TG.genre = ?
             '''
-        if type != ShowType.ALL_TYPES:
+        if show_type != ShowType.ALL_TYPES:
             sql += '''
             AND TB1.titleType = ?
             '''
@@ -64,11 +64,11 @@ class Database:
         ORDER BY TR.averageRating DESC;
         '''
         cls.connect()
-        cursor = cls._connection.cursor()
-        if genre != ShowGenre.ALL_GENRES and type != ShowType.ALL_TYPES:
-            cursor.execute(sql, min_votes, genre, type)
-        elif type != ShowType.ALL_TYPES:
-            cursor.execute(sql, min_votes, type)
+        cursor = cls.__connection.cursor()
+        if genre != ShowGenre.ALL_GENRES and show_type != ShowType.ALL_TYPES:
+            cursor.execute(sql, min_votes, genre, show_type)
+        elif show_type != ShowType.ALL_TYPES:
+            cursor.execute(sql, min_votes, show_type)
         elif genre != ShowGenre.ALL_GENRES:
             cursor.execute(sql, min_votes, genre)
         else:
@@ -83,13 +83,12 @@ class Database:
     # Fetch the distinct genres from the IMDB database.
     @classmethod
     def fetch_genres(cls):
-        from Show import ShowGenre
         sql = '''
         SELECT DISTINCT genre
         FROM title_genre;
         '''
         cls.connect()
-        cursor = cls._connection.cursor()
+        cursor = cls.__connection.cursor()
         cursor.execute(sql)
         genres = []
         genre = cursor.fetchone()
@@ -101,17 +100,16 @@ class Database:
     # Fetch the distinct types of shows from the IMDB database.
     @classmethod
     def fetch_types(cls):
-        from Show import ShowType
         sql = '''
         SELECT DISTINCT titleType
         FROM title_basics;
         '''
         cls.connect()
-        cursor = cls._connection.cursor()
+        cursor = cls.__connection.cursor()
         cursor.execute(sql)
         types = []
-        type = cursor.fetchone()
-        while type:
-            types.append(ShowType(type[0]))
-            type = cursor.fetchone()
+        show_type = cursor.fetchone()
+        while show_type:
+            types.append(ShowType(show_type[0]))
+            show_type = cursor.fetchone()
         return types

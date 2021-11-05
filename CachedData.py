@@ -1,8 +1,8 @@
+from Show import ShowType, ShowGenre
+
 class CachedData:
     @staticmethod
     def fetch_genres():
-        from Show import ShowGenre
-
         return [
             ShowGenre("Action"),
             ShowGenre("Adult"),
@@ -36,8 +36,6 @@ class CachedData:
 
     @staticmethod
     def fetch_types():
-        from Show import ShowType
-
         return [
             ShowType("movie"),
             ShowType("short"),
