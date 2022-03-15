@@ -1,14 +1,16 @@
 <?xml version='1.0' encoding='utf-8'?>
-<interface version="1.0">
-  <object class="ttk.Frame" id="mainwindow">
+<interface version="1.2">
+  <object class="tk.Toplevel" id="mainwindow">
+    <property name="title" translatable="yes">IMDb Browser</property>
     <property name="width">1200</property>
-    <layout manager="grid">
-      <property name="column">0</property>
-      <property name="row">0</property>
-      <property name="sticky">nsew</property>
+    <containerlayout manager="grid">
+      <property type="col" id="0" name="pad">5</property>
       <property type="col" id="0" name="weight">1</property>
-      <property type="row" id="0" name="weight">1</property>
-    </layout>
+      <property type="row" id="0" name="pad">0</property>
+      <property type="row" id="0" name="weight">0</property>
+      <property type="row" id="1" name="pad">5</property>
+      <property type="row" id="1" name="weight">1</property>
+    </containerlayout>
     <child>
       <object class="pygubu.builder.widgets.scrollbarhelper" id="table_bar">
         <property name="scrolltype">vertical</property>
@@ -17,14 +19,13 @@
         <layout manager="grid">
           <property name="padx">5</property>
           <property name="pady">5</property>
-          <property name="propagate">True</property>
           <property name="row">1</property>
           <property name="sticky">nsew</property>
-          <property type="col" id="0" name="pad">5</property>
-          <property type="col" id="0" name="weight">1</property>
-          <property type="row" id="1" name="pad">5</property>
-          <property type="row" id="1" name="weight">1</property>
         </layout>
+        <containerlayout manager="grid">
+          <property type="col" id="0" name="weight">1</property>
+          <property type="row" id="0" name="weight">1</property>
+        </containerlayout>
         <child>
           <object class="ttk.Treeview" id="table_view">
             <property name="height">15</property>
@@ -32,11 +33,8 @@
             <property name="show">headings</property>
             <bind sequence="&lt;&lt;TreeviewSelect&gt;&gt;" handler="show_selected" add="" />
             <layout manager="grid">
-              <property name="propagate">True</property>
               <property name="row">0</property>
               <property name="sticky">nsew</property>
-              <property type="col" id="0" name="weight">1</property>
-              <property type="row" id="0" name="weight">1</property>
             </layout>
           </object>
         </child>
@@ -48,22 +46,19 @@
           <property name="column">0</property>
           <property name="padx">5</property>
           <property name="pady">5</property>
-          <property name="propagate">True</property>
           <property name="row">0</property>
           <property name="sticky">ew</property>
-          <property type="col" id="0" name="pad">5</property>
-          <property type="col" id="0" name="weight">1</property>
-          <property type="row" id="0" name="pad">0</property>
-          <property type="row" id="0" name="weight">0</property>
         </layout>
+        <containerlayout manager="grid">
+          <property type="col" id="1" name="pad">10</property>
+          <property type="col" id="2" name="weight">100</property>
+        </containerlayout>
         <child>
           <object class="ttk.Combobox" id="genre_combo">
             <property name="state">readonly</property>
             <property name="width">15</property>
             <bind sequence="&lt;&lt;ComboboxSelected&gt;&gt;" handler="genre_changed" add="" />
-            <layout manager="grid">
-              <property name="propagate">True</property>
-            </layout>
+            <layout manager="grid" />
           </object>
         </child>
         <child>
@@ -73,9 +68,7 @@
             <bind sequence="&lt;&lt;ComboboxSelected&gt;&gt;" handler="type_changed" add="" />
             <layout manager="grid">
               <property name="column">1</property>
-              <property name="propagate">True</property>
               <property name="row">0</property>
-              <property type="col" id="1" name="pad">10</property>
             </layout>
           </object>
         </child>
@@ -85,10 +78,8 @@
             <property name="text" translatable="yes">Min Votes (1000 minimum):</property>
             <layout manager="grid">
               <property name="column">2</property>
-              <property name="propagate">True</property>
               <property name="row">0</property>
               <property name="sticky">e</property>
-              <property type="col" id="2" name="weight">100</property>
             </layout>
           </object>
         </child>
@@ -100,7 +91,6 @@
             <bind sequence="&lt;KeyRelease&gt;" handler="min_votes_changed" add="" />
             <layout manager="grid">
               <property name="column">3</property>
-              <property name="propagate">True</property>
               <property name="row">0</property>
               <property name="sticky">e</property>
             </layout>
@@ -110,14 +100,13 @@
     </child>
     <child>
       <object class="ttk.Button" id="show_imdb_button">
-        <property name="command">show_imdb_page</property>
+        <property name="command" type="command" cbtype="simple" args="">show_imdb_page</property>
         <property name="state">disabled</property>
         <property name="text" translatable="yes">Show IMDB Page</property>
         <layout manager="grid">
           <property name="column">0</property>
           <property name="padx">5</property>
           <property name="pady">5</property>
-          <property name="propagate">True</property>
           <property name="row">2</property>
           <property name="sticky">e</property>
         </layout>

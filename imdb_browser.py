@@ -26,7 +26,7 @@ class ShowBrowserApp:
     __show_imdb_button = None
 
     # Setup the app
-    def __init__(self, master):
+    def __init__(self, master=None):
         self.load_ui(master)
         self.setup_treeview()
         self.setup_genres()
@@ -196,8 +196,5 @@ class ShowBrowserApp:
 
 
 if __name__ == '__main__':
-    root = tk.Tk()
-    root.title("IMDB Popular Show Browser")
-    root.tk.call('info', 'patchlevel')
-    app = ShowBrowserApp(root)
+    app = ShowBrowserApp()
     app.run()
