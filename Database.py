@@ -17,9 +17,18 @@ class Database:
             database = 'IMDB'
             username = '275student'
             password = '275student'
-            cls.__connection = pyodbc.connect(
-                'DRIVER={ODBC Driver 17 for SQL Server};SERVER=' + server + ';DATABASE=' + database
-                + ';UID=' + username + ';PWD=' + password)
+            trustedconnection = 'yes'
+            trustservercertificate = 'yes'
+            try:
+                cls.__connection = pyodbc.connect(
+                    'DRIVER={ODBC Driver 18 for SQL Server};SERVER=' + server + ';DATABASE=' + database
+                    + ';UID=' + username + ';PWD=' + password
+                    + ';trustedconnection=' + trustedconnection
+                    + ';trustservercertificate=' + trustservercertificate)
+            except pyodbc.InterfaceError:
+                cls.__connection = pyodbc.connect(
+                    'DRIVER={ODBC Driver 17 for SQL Server};SERVER=' + server + ';DATABASE=' + database
+                    + ';UID=' + username + ';PWD=' + password)
 
     # Fetch the most popular shows from the IMDB given a particular genre and type of show,
     # where at least a certain number of IMDB users have rated that show.
