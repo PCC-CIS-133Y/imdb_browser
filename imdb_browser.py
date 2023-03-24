@@ -4,9 +4,9 @@ import pygubu
 # Next two imports are required for pyinstaller to work properly.
 
 # noinspection PyUnresolvedReferences
-from pygubu.builder import ttkstdwidgets
+# from pygubu.builder import ttkstdwidgets
 # noinspection PyUnresolvedReferences
-from pygubu.builder.widgets import scrollbarhelper
+# from pygubu.builder.widgets import scrollbarhelper
 
 import tkinter as tk
 from Show import *
