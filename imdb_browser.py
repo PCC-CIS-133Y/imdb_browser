@@ -120,6 +120,7 @@ class ShowBrowserApp:
         for i in self.__tree.get_children():
             self.__tree.delete(i)
         self.__show_imdb_button['state'] = tk.DISABLED
+        # print("Deselected:", self.__tree.focus())
         genre = self.__genre_combo.get()
         show_type = self.__type_combo.get()
         try:
@@ -139,8 +140,8 @@ class ShowBrowserApp:
     # noinspection PyUnusedLocal
     def show_selected(self, event):
         focus = self.__tree.focus()
-        # print(focus)
-        self.__show_imdb_button['state'] = tk.NORMAL
+        if focus != "":
+            self.__show_imdb_button['state'] = tk.NORMAL
         # print("Show selected:", self._tree.item(focus))
 
     # Fix bug in alternating colors in Treeview for later versions of tkinter
@@ -188,7 +189,7 @@ class ShowBrowserApp:
     # The user clicked the Show IMDB Page button. Launch that page in the default browser.
     def show_imdb_page(self):
         selected_item = self.__tree.item(self.__tree.focus())
-        print(selected_item)
+        # print(selected_item)
         webbrowser.open('https://imdb.com/title/' + selected_item['values'][0])
 
     def run(self):
