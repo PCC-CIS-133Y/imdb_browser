@@ -34,7 +34,7 @@ class Show:
     # Fetch a list of popular shows. We just hand this request over to the data layer.
     @staticmethod
     def fetch_popular_shows(genre, show_type, min_votes):
-        from Database import Database
+        from pymssql_Database import Database
 
         return Database.fetch_popular_shows(genre, show_type, min_votes)
 
@@ -56,7 +56,7 @@ class ShowGenre:
         # Uncomment the following two lines of code and then removed the CachedData lines below
         # to use the database.
         #
-        # from Database import Database
+        # from pymssql_Database import Database
         # return Database.fetch_genres()
 
         # Used cached versions of the data to save time on startup.
@@ -82,7 +82,7 @@ class ShowType:
         # Uncomment the following two lines of code and then removed the CachedData lines below
         # to use the database.
         #
-        # from Database import Database
+        # from pymssql_Database import Database
         # return Database.fetch_types()
 
         # Used cached versions of the data to save time on startup.
